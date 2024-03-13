@@ -1,0 +1,136 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+  <!-- mouth opened -->
+  <div id="mouth-opened" class="flex justify-center items-center h-screen">
+
+    <!-- mata kiri -->
+    <div class="absolute bg-black mb-[21rem] mr-[15rem] w-[4rem] h-[4rem] z-[9]">
+        <div class="flex justify-center items-center h-full">
+            <div class="absolute bg-white w-[1rem] h-[1rem] z-10"></div>
+        </div>
+    </div>
+    <div class="absolute bg-green-900  mb-[21rem] mr-[15rem] w-[5rem] h-[5rem] z-[8]"></div>
+
+    <!-- mata kanan -->
+    <div class="absolute bg-black mb-[21rem] ml-[15rem] w-[4rem] h-[4rem] z-[9]">
+        <div class="flex justify-center items-center h-full">
+            <div class="absolute bg-white w-[1rem] h-[1rem] z-10"></div>
+        </div>
+    </div>
+    <div class="absolute bg-green-900 mb-[21rem] ml-[15rem] w-[5rem] h-[5rem] z-[8]"></div>
+
+    <!-- badan -->
+    <div class="absolute bg-green-900 mb-[15rem] w-[25rem] h-[7rem] z-5"></div>
+    <div class="absolute bg-green-900 mt-[15rem] w-[25rem] h-[2.5rem] z-5"></div>
+
+    <div class="absolute bg-green-900 mr-[26rem] mb-[2.2rem] w-[2.5rem] h-[19.7rem] z-5"></div>
+    <div class="absolute bg-green-900 ml-[26rem] mb-[2.2rem] w-[2.5rem] h-[19.7rem] z-5"></div>
+
+    <!-- mulut -->
+    <div class="absolute bg-red-600 w-[25rem] h-[15rem] z-1">
+        <div class="flex justify-center items-start h-[50%]">
+            <div class="bg-white w-full h-10"></div>
+        </div>
+        <div class="flex justify-center items-end h-[50%]">
+            <div id="teeth-1" class="teeth bg-white w-5 h-10 mr-4 hover:scale-110"></div>
+            <div id="teeth-2" class="teeth bg-white w-5 h-10 mr-4 hover:scale-110"></div>
+            <div id="teeth-3" class="teeth bg-white w-5 h-10 mr-4 hover:scale-110"></div>
+            <div id="teeth-4" class="teeth bg-white w-5 h-10 mr-4 hover:scale-110"></div>
+            <div id="teeth-5" class="teeth bg-white w-5 h-10 mr-4 hover:scale-110"></div>
+            <div id="teeth-6" class="teeth bg-white w-5 h-10 mr-4 hover:scale-110"></div>
+            <div id="teeth-7" class="teeth bg-white w-5 h-10 mr-4 hover:scale-110"></div>
+            <div id="teeth-8" class="teeth bg-white w-5 h-10 mr-4 hover:scale-110"></div>
+            <div id="teeth-9" class="teeth bg-white w-5 h-10 mr-4 hover:scale-110"></div>
+            <div id="teeth-10" class="teeth bg-white w-5 h-10 hover:scale-110"></div>
+        </div>
+    </div>
+  </div>
+
+  <!-- mouth closed -->
+  <div id="mouth-closed" class="flex justify-center items-center h-screen hidden">
+
+    <!-- mata kiri -->
+    <div class="absolute bg-black mb-[11rem] mr-[15rem] w-[4rem] h-[4rem] z-[9]">
+        <div class="flex justify-center items-center h-full">
+            <div class="absolute bg-white w-[1rem] h-[1rem] z-10"></div>
+        </div>
+    </div>
+    <div class="absolute bg-green-900  mb-[11rem] mr-[15rem] w-[5rem] h-[5rem] z-[8]"></div>
+
+    <!-- mata kanan -->
+    <div class="absolute bg-black mb-[11rem] ml-[15rem] w-[4rem] h-[4rem] z-[9]">
+        <div class="flex justify-center items-center h-full">
+            <div class="absolute bg-white w-[1rem] h-[1rem] z-10"></div>
+        </div>
+    </div>
+    <div class="absolute bg-green-900 mb-[11rem] ml-[15rem] w-[5rem] h-[5rem] z-[8]"></div>
+
+    <!-- badan -->
+    <div class="absolute bg-green-900 mb-[5rem] w-[25rem] h-[7rem] z-[5]"></div>
+    <div class="absolute bg-green-900 mt-[5rem] w-[25rem] h-[2.5rem] z-[5]"></div>
+
+    <!-- mulut -->
+    <div class="absolute bg-red-600 w-[25rem] h-[5rem] z-[1]"></div>
+  </div>
+
+  <script>
+    const teeth = document.querySelectorAll('.teeth');
+    const mouth_opened = document.getElementById('mouth-opened');
+    const mouth_closed = document.getElementById('mouth-closed');
+
+    // random 1-10
+    let trap;
+
+    let startGame = () => {
+        trap = Math.floor(Math.random() * 10) + 1;
+
+        mouth_opened.classList.remove('hidden');
+        mouth_closed.classList.add('hidden');
+
+        teeth.forEach((el) => {
+            el.classList.remove('hover:scale-110');
+            el.classList.remove('h-4');
+            el.classList.remove('h-10');
+            
+            el.classList.add('hover:scale-110');
+            el.classList.add('h-10');
+        });
+    }
+
+    startGame();
+
+    teeth.forEach(el => el.addEventListener('click', event => {
+        
+        let teethId = event.target.getAttribute("id");
+        
+        if(teethId == `teeth-${trap}`) {
+            mouth_opened.classList.add('hidden');
+            mouth_closed.classList.remove('hidden');
+            setTimeout(()=>{
+                Swal.fire({
+                    icon: "error",
+                    title: "You lose!",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        startGame()
+                    }
+                });
+            }, 400);
+        }else{
+            event.target.classList.remove("hover:scale-110");
+            event.target.classList.remove("h-10");
+            event.target.classList.add("h-4");
+        }
+
+    }));
+
+  </script>
+</body>
+</html>
